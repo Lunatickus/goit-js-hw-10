@@ -68,11 +68,13 @@ function renderCatInfoMarkup({name, description, temperament}) {
 }
 
 function hideLoader() {
-    refs.loader.hidden = !refs.loader.hidden;
+    // refs.loader.hidden = !refs.loader.hidden;
+    refs.loader.classList.toggle('visually-hidden');
 }
 
 function hideSelector() {
-    refs.select.hidden = !refs.select.hidden;
+    // refs.select.hidden = !refs.select.hidden;
+    refs.select.classList.toggle('visually-hidden');
 }
 
 function showError() {
