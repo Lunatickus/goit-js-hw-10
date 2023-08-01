@@ -29,12 +29,11 @@ refs.select.addEventListener("change", () => {
         renderCatImageMarkup(breed);
         fetchCatInfoByBreed(refs.select.value).then(renderCatInfoMarkup).catch(error => console.log(error));
         hideLoader();
-        // console.log(breed);
     }).catch(error => {
         console.log(error);
         hideLoader();
+        clearCatInfo();
         showError();
-        hideSelector();
     });
 });
 
@@ -68,15 +67,17 @@ function renderCatInfoMarkup({name, description, temperament}) {
 }
 
 function hideLoader() {
-    // refs.loader.hidden = !refs.loader.hidden;
-    refs.loader.classList.toggle('visually-hidden');
+    refs.loader.hidden = !refs.loader.hidden;
 }
 
 function hideSelector() {
-    // refs.select.hidden = !refs.select.hidden;
-    refs.select.classList.toggle('visually-hidden');
+    refs.select.hidden = !refs.select.hidden;
 }
 
 function showError() {
     Notiflix.Report.failure('Error', 'Oops! Something went wrong! Try reloading the page!');
-} 
+}
+
+function clearCatInfo() {
+    refs.catInfo.innerHTML = '';
+}
