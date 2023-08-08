@@ -11,7 +11,11 @@ function fetchBreeds() {
 }
 
 function fetchCatByBreed(breedId) {
-    return fetch(`${BASE_URL}/images/search?breed_ids=${breedId}`).then(response => {
+    const params = new URLSearchParams({
+        breed_ids: breedId,
+    });
+
+    return fetch(`${BASE_URL}/images/search?${params}`).then(response => {
         if(!response.ok) {
             throw new Error(response.status);
         }
