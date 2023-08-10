@@ -5,7 +5,7 @@ const API_KEY = 'live_u32GosH3z96t27To0vi83OFNB6w58fS7IkjhSBAK7LN7pTgvLyAXIDwQCG
 function fetchBreeds() {
     return fetch(`${BASE_URL}/breeds`).then(response => {
         if(!response.ok) {
-            throw new Error(response.status);
+            throw new Error(response.statusText);
         }
 
         return response.json();
@@ -20,7 +20,7 @@ function fetchCatByBreed(breedId) {
 
     return fetch(`${BASE_URL}/images/search?${params}`).then(response => {
         if(!response.ok) {
-            throw new Error(response.status);
+            throw new Error(response.statusText);
         }
 
         return response.json();
