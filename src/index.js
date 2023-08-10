@@ -2,7 +2,7 @@ import Notiflix from "notiflix";
 import SlimSelect from "slim-select";
 import "slim-select/dist/slimselect.css";
 import axios from "axios";
-import { fetchBreeds, fetchCatByBreed, fetchCatInfoByBreed } from "./js/cat-api";
+import { fetchBreeds, fetchCatByBreed } from "./js/cat-api";
 
 const API_KEY = 'live_u32GosH3z96t27To0vi83OFNB6w58fS7IkjhSBAK7LN7pTgvLyAXIDwQCGgyaWbP';
 
@@ -22,12 +22,13 @@ fetchBreeds().then(breeds => {
     hideSelector();
 }).catch(error => console.log(error));
 
-refs.select.addEventListener("change", () => {
+refs.select.addEventListener("change", onChange);
+
+function onChange() {
     hideLoader();
 
     fetchCatByBreed(refs.select.value).then(breed => {
-        renderCatImageMarkup(breed);
-        fetchCatInfoByBreed(refs.select.value).then(renderCatInfoMarkup).catch(error => console.log(error));
+        renderCatInfoMarkup(breed);
         hideLoader();
     }).catch(error => {
         console.log(error);
@@ -35,7 +36,7 @@ refs.select.addEventListener("change", () => {
         clearCatInfo();
         showError();
     });
-});
+}
 
 function renderBreedsSelectMarkup(breeds) {
     const markup = breeds.map(({id, name}) => {
@@ -49,21 +50,16 @@ function renderBreedsSelectMarkup(breeds) {
     });
 }
 
-function renderCatImageMarkup([breed]) {
-    const markup =  `<img src="${breed.url}">`;
-
-    refs.catInfo.innerHTML = '';
-    refs.catInfo.insertAdjacentHTML("beforeend", markup);
-}
-
-function renderCatInfoMarkup({name, description, temperament}) {
-    const markup = `<div>
+function renderCatInfoMarkup([breed]) {
+    const {url, breeds: [{name, description, temperament}]} = breed;
+    const markup =  `<img src="${url}">
+    <div>
     <h1>${name}</h1>
     <p>${description}</p>
     <p><b>Temperament: </b>${temperament}</p>
-    </div>`
+    </div>`;
 
-    refs.catInfo.insertAdjacentHTML("beforeend", markup);
+    refs.catInfo.innerHTML = markup;
 }
 
 function hideLoader() {
